@@ -8,8 +8,7 @@ import type {
 	ProductData,
 	Store as WooCommerce,
 } from '@woocommerce/stores/woocommerce/cart';
-import { sanitize } from 'dompurify'; // eslint-disable-line import/named
-
+import { sanitizeHTML } from '@woocommerce/sanitize';
 // Stores are locked to prevent 3PD usage until the API is stable.
 const universalLock =
 	'I acknowledge that using a private store means my plugin will inevitably break on the next store release.';
@@ -90,9 +89,9 @@ const productElementStore = store(
 					];
 
 				if ( typeof productElementHtml === 'string' ) {
-					element.ref.innerHTML = sanitize( productElementHtml, {
-						ALLOWED_TAGS,
-						ALLOWED_ATTR,
+					element.ref.innerHTML = sanitizeHTML( productElementHtml, {
+						tags: ALLOWED_TAGS,
+						attr: ALLOWED_ATTR,
 					} );
 				}
 			},
